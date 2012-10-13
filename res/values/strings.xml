@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">RkrkSkb</string>
+    <string name="widget_app_name">らくらく出勤簿</string>
+    <string name="data_service">DataService</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_rkrk_skb">RkrkSkbActivity</string>
+    <string name="syukkin_btn_name">出勤</string>
+    <string name="taikin_btn_name">退勤</string>
+    <string name="kyuuka_btn_name">休暇</string>
+        
+</resources>
