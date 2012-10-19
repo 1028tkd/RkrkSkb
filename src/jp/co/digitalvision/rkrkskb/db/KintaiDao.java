@@ -219,7 +219,7 @@ public class KintaiDao {
 
 		Log.v("KintaiDao", "getKintaiCols start");
 
-		// �v���C�}���L�[����
+		// 取得カラム設定
     	String[] cols = new String[6];
     	cols[0] = KintaiEntity.KBN;
     	cols[1] = KintaiEntity.INPUT_DATE;
