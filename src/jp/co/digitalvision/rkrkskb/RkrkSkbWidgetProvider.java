@@ -15,18 +15,18 @@ import android.widget.RemoteViews;
 
 public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 
-	/** �o�΃{�^���A�N�V�������� */
+	/** 出勤ボタンアクション名称 */
 	private static final String SYUKKIN_CLICKED = "jp.co.digitalvision.SYUKKIN_CLICKED";
-	/** �ދ΃{�^���A�N�V�������� */
+	/** 退勤ボタンアクション名称 */
 	private static final String TAIKIN_CLICKED = "jp.co.digitalvision.TAIKIN_CLICKED";
-	/** �x�Ƀ{�^���A�N�V�������� */
+	/** 休暇ボタンアクション名称 */
 	private static final String KYUUKA_CLICKED = "jp.co.digitalvision.KYUUKA_CLICKED";
 
 	/*
-	 * AppWidget���쐬�����ۂɌĂ΂�܂��B
-	 * ����AppWidget�𕡐��N�������ۂɂ́A����̂݌Ă΂�܂��B
-	 * �S�̓I�ȏ��������K�v�ȏꍇ�͂����ɋL�q���܂�
-	 *
+	 * AppWidgetが作成される際に呼ばれます。
+	 * 同じAppWidgetを複数起動した際には、初回のみ呼ばれます。
+	 * 全体的な初期化処理が必要な場合はここに記述します
+	 * 
 	 * @param context
 	 */
 	@Override
@@ -39,10 +39,10 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * AppWidget���X�V�����ۂɌĂ΂�܂��B
-	 * updatePeriodMillis���ōX�V�Ԋu��ݒ肵�Ă���΁A���̃^�C�~���O�ŌĂ΂�܂��B
-	 * �܂��AAppWidget���N�������ۂɂ���x�Ă΂�܂��B
-	 *
+	 * AppWidgetが更新される際に呼ばれます。
+	 * updatePeriodMillis等で更新間隔を設定していれば、そのタイミングで呼ばれます。
+	 * また、AppWidgetを起動した際にも一度呼ばれます。
+	 * 
 	 * @param context
 	 * @param appWidgetManager
 	 * @param appWidgetIds
@@ -58,9 +58,9 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * AppWidget���폜���ꂽ�ۂɌĂ΂�܂��B
-	 * �I���������K�v�ȏꍇ�͂����ɋL�q���܂��B
-	 *
+	 * AppWidgetが削除された際に呼ばれます。
+	 * 終了処理が必要な場合はここに記述します。
+	 * 
 	 * @param context
 	 * @param appWidgetIds
 	 */
@@ -71,9 +71,9 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * AppWidget���S�č폜���ꂽ�ۂɌĂ΂�܂��B
-	 * �S�̓I�ȏI���������K�v�ȏꍇ�͂����ɋL�q���܂��B
-	 *
+	 * AppWidgetが全て削除された際に呼ばれます。
+	 * 全体的な終了処理が必要な場合はここに記述します。
+	 * 
 	 * @param context
 	 */
 	@Override
@@ -83,10 +83,10 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * �A�N�V�������󂯎��AAppWidgetProvider�̊e���\�b�h�̌Ăяo�����������܂��B
-	 *
+	 * アクションを受け取り、AppWidgetProviderの各メソッドの呼び出しを処理します。
+	 * 
 	 * @param context
-	 * @param intent �C���e���g
+	 * @param intent インテント
 	 */
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -98,7 +98,7 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 
 		RemoteViews rview = new RemoteViews(context.getPackageName(), R.layout.widget_rkrk_skb);
 
-		// ����Intent�Ɏ���A�N�V������ݒ�
+		// 自作Intentに自作アクションを設定
 		Intent skClickIntent = new Intent();
 		Intent tkClickIntent = new Intent();
 		Intent kkClickIntent = new Intent();
@@ -107,17 +107,17 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 		tkClickIntent.setAction(RkrkSkbWidgetProvider.TAIKIN_CLICKED);
 		kkClickIntent.setAction(RkrkSkbWidgetProvider.KYUUKA_CLICKED);
 
-		// �y���f�B���O�C���e���g�쐬
+		// ペンディングインテント作成
 		PendingIntent skPdIntent = PendingIntent.getBroadcast(context, 0, skClickIntent, 0);
 		PendingIntent tkPdIntent = PendingIntent.getBroadcast(context, 0, tkClickIntent, 0);
 		PendingIntent kkPdIntent = PendingIntent.getBroadcast(context, 0, kkClickIntent, 0);
 
-		// �����[�g�r���[�ɃN���b�N�C�x���g��o�^
+		// リモートビューにクリックイベントを登録
 		rview.setOnClickPendingIntent(R.id.syukkin_button, skPdIntent);
 		rview.setOnClickPendingIntent(R.id.taikin_button, tkPdIntent);
 		rview.setOnClickPendingIntent(R.id.kyuuka_buttton, kkPdIntent);
 
-		// �E�B�W�F�b�g�}�l�[�W����Context����擾����
+		// ウィジェットマネージャをContextから取得する
 		AppWidgetManager manager = AppWidgetManager.getInstance(context);
 		ComponentName cn = new ComponentName(context, RkrkSkbWidgetProvider.class);
 		manager.updateAppWidget(cn, rview);
@@ -126,50 +126,53 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 
 		String action = intent.getAction();
 
-		// �o�΃{�^������������
+		// 出勤ボタン押下時判定
 		if (RkrkSkbWidgetProvider.SYUKKIN_CLICKED.equals(action)) {
-			// �o�Ώ���
+			// 出勤処理
 			syukkinOnClicked(context);
 
-		// �ދ΃{�^������������
+		// 退勤ボタン押下時判定
 		} else if(RkrkSkbWidgetProvider.TAIKIN_CLICKED.equals(action)){
-			// �ދΏ���
+			// 退勤処理
 			taikinOnClicked(context);
 
-		// �x�Ƀ{�^������������
+		// 休暇ボタン押下時判定
 		} else if(RkrkSkbWidgetProvider.KYUUKA_CLICKED.equals(action)){
-			// �x�ɏ���
+			// 休暇処理
 			kyuukaOnClicked(context);
 
 		}
 	}
 
 	/*
-	 * �o�΃{�^������������
-	 *
+	 * 出勤ボタン押下時処理
+	 * 
 	 * @param context
 	 */
 	public void syukkinOnClicked(Context context) {
 
 		Log.v("RkrkSkbWidgetProvider", "syukkinOnClicked start");
 
-		// DB�X�V
+		// DB更新
 		KintaiDao kintai = new KintaiDao(context);
-		kintai.doSave(setKintaiEntityData(Constants.KBN_SYUKKIN));
-
+		long status = kintai.doSave(setKintaiEntityData(Constants.KBN_SYUKKIN));
+		if(status != 0){
+			Log.v("RkrkSkbWidgetProvider", "DB処理にてエラーが発生しました[ ERROR_CODE = " + status + " ]");
+		}
+		
 		Log.v("RkrkSkbWidgetProvider", "syukkinOnClicked end");
 	}
 
 	/*
-	 * �ދ΃{�^������������
-	 *
+	 * 退勤ボタン押下時処理
+	 * 
 	 * @param context
 	 */
 	public void taikinOnClicked(Context context) {
 
 		Log.v("RkrkSkbWidgetProvider", "taikinOnClicked start");
 
-		// DB�X�V
+		// DB更新
 		KintaiDao kintai = new KintaiDao(context);
 		kintai.doSave(setKintaiEntityData(Constants.KBN_TAIKIN));
 
@@ -177,15 +180,15 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * �x�Ƀ{�^������������
-	 *
+	 * 休暇ボタン押下時処理
+	 * 
 	 * @param context
 	 */
 	public void kyuukaOnClicked(Context context) {
 
 		Log.v("RkrkSkbWidgetProvider", "kyuukaOnClicked start");
 
-		// DB�X�V
+		// DB更新
 		KintaiDao kintai = new KintaiDao(context);
 		kintai.doSave(setKintaiEntityData(Constants.KBN_KYUUKA));
 
@@ -193,25 +196,25 @@ public class RkrkSkbWidgetProvider extends AppWidgetProvider {
 	}
 
 	/*
-	 * �ΑӃG���e�B�e�B�f�[�^�ݒ�
-	 *
-	 * @param kbn �ΑӋ敪
-	 * @return �ΑӃG���e�B�e�B
+	 * 勤怠エンティティデータ設定
+	 * 
+	 * @param kbn 勤怠区分
+	 * @return 勤怠エンティティ
 	 */
 	private KintaiEntity setKintaiEntityData(String kbn) {
 
-		// ���ݎ����擾�i�V�X�e����t�擾�iYYYYMMDD�`���j�j
+		// 現在時刻取得（システム日付取得（YYYYMMDD形式））
 		String strDate = DateUtil.getFormatDate("yyyyMMdd");
 
 		KintaiEntity entity = new KintaiEntity();
 		entity.setKbn(kbn);
 		entity.setInputDate(strDate);
 
-		// �x�ɈȊO�̏ꍇ�͎��ԁA�����Z�b�g
+		// 休暇以外の場合は時間、分をセット
 		if(!Constants.KBN_KYUUKA.equals(kbn)){
 			entity.setHour(DateUtil.getFormatDate("HH"));
 			entity.setMin(DateUtil.getFormatDate("mm"));
-		// ����ȊO�̏ꍇ�̓u�����N
+		// それ以外の場合はブランク
 		} else {
 			entity.setHour("");
 			entity.setMin("");

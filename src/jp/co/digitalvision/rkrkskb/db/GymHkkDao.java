@@ -11,14 +11,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 /**
- * ‹Æ–±•ñƒe[ƒuƒ‹ƒAƒNƒZƒXƒNƒ‰ƒX
+ * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã‚¢ã‚¯ã‚»ã‚¹ã‚¯ãƒ©ã‚¹
  */
 public class GymHkkDao {
 
 	private DatabaseOpenHelper helper = null;
+	SQLiteDatabase db = null;
 	
 	/*
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 * 
 	 * @param context
 	 */
@@ -27,41 +28,58 @@ public class GymHkkDao {
     }
 	
 	/*
-	 * ‹Æ–±•ñƒe[ƒuƒ‹‚Ì•Û‘¶
-	 * V‹Kƒf[ƒ^‚ÍINSERTAŠù‘¶ƒf[ƒ^‚Ìê‡‚ÍUPDATE‚ğÀ{‚·‚é
+	 * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã®ä¿å­˜
+	 * æ–°è¦ãƒ‡ãƒ¼ã‚¿ã¯INSERTã€æ—¢å­˜ãƒ‡ãƒ¼ã‚¿ã®å ´åˆã¯UPDATEã‚’å®Ÿæ–½ã™ã‚‹
 	 * 
-	 * @param entity ‹Æ–±•ñƒGƒ“ƒeƒBƒeƒB
-	 * @return ÀsŒ‹‰Êi0F³íA90FˆÙíj
+	 * @param entity æ¥­å‹™å ±å‘Šã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
+	 * @return å®Ÿè¡Œçµæœï¼ˆ0ï¼šæ­£å¸¸ã€90ï¼šç•°å¸¸ï¼‰
 	 */
 	public int doSave(GymHkkEntity entity){
 		
 		Log.v("GymHkkDao", "doSave start");
 
-		int status = 0;		// ˆ—Œ‹‰Ê
-		SQLiteDatabase db = helper.getWritableDatabase();
+		int status = 0;		// å‡¦ç†çµæœ
+		db = helper.getWritableDatabase();
 		
 		try {
 			
-			ContentValues values = new ContentValues();
-			// ŠÔ
-			values.put(GymHkkEntity.SOUKATSU, entity.getSoukatsu());
-			// •ª
-			values.put(GymHkkEntity.POINT, entity.getPoint());
-			// ”õl
-			values.put(GymHkkEntity.BIKOU, entity.getBikou());
-			
-			// “ü—Í“ú•t
+			// å…¥åŠ›æ—¥ä»˜
 			String inputDate = entity.getInputDate();
 			
-			if(!Utils.isBlankOrNull(inputDate)){
-				// ƒvƒ‰ƒCƒ}ƒŠƒL[‚ªæ“¾‚Å‚«‚½ê‡‚ÍXVˆ—‚ğs‚¤
-				db.update(GymHkkEntity.TABLE_NAME, values, getGymHkkPrimaryKey(), getGymHkkPrimaryData(entity));
+			ContentValues values = new ContentValues();
+			// å…¥åŠ›æ—¥ä»˜
+			values.put(GymHkkEntity.INPUT_DATE, inputDate);
+			// æ™‚é–“
+			values.put(GymHkkEntity.SOUKATSU, entity.getSoukatsu());
+			// åˆ†
+			values.put(GymHkkEntity.POINT, entity.getPoint());
+			// å‚™è€ƒ
+			values.put(GymHkkEntity.BIKOU, entity.getBikou());
+			
+			// ãƒ‡ãƒ¼ã‚¿ãƒ­ãƒ¼ãƒ‰
+			GymHkkEntity ldEnt = load(inputDate);
+
+			if(ldEnt != null){			
+				Log.v("KintaiDao", "doSave UPDATE start");
+				
+				// ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ãŒå–å¾—ã§ããŸå ´åˆã¯æ›´æ–°å‡¦ç†ã‚’è¡Œã†
+				db.update(GymHkkEntity.TABLE_NAME, values, getGymHkkWherePrimaryKey(), getGymHkkPrimaryData(entity));
+				
+				Log.v("KintaiDao", "doSave UPDATE end");
+
 			} else {
-				// ‚»‚êˆÈŠO‚ÍV‹Kì¬ˆ—‚ğs‚¤
+				Log.v("KintaiDao", "doSave INSERT start");
+				
+				// ãã‚Œä»¥å¤–ã¯æ–°è¦ä½œæˆå‡¦ç†ã‚’è¡Œã†
 				db.insert( GymHkkEntity.TABLE_NAME, null, values);
+				// ã‚³ãƒŸãƒƒãƒˆ
+				db.setTransactionSuccessful();
+				
+				Log.v("KintaiDao", "doSave INSERT end");
 			}
 			
 		} catch (Exception e){
+			Log.v("GymHkkDao", "ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ[ " + e.toString() + " ]");
 			status = 90;
 		} finally {
 			db.close();
@@ -73,42 +91,67 @@ public class GymHkkDao {
 	}
 	
 	/**
-     * ‹Æ–±•ñƒe[ƒuƒ‹‚ÌƒŒƒR[ƒhíœ
+     * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ¬ã‚³ãƒ¼ãƒ‰å‰Šé™¤
      * 
-     * @param entity íœ‘ÎÛ‚Ì‹Æ–±•ñƒGƒ“ƒeƒBƒeƒB
+     * @param entity å‰Šé™¤å¯¾è±¡ã®æ¥­å‹™å ±å‘Šã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£
      */
     public void doDelete(GymHkkEntity entity) {
     	
 		Log.v("GymHkkDao", "doDelete start");
 
-        SQLiteDatabase db = helper.getWritableDatabase();
         try {
-        	db.delete(GymHkkEntity.TABLE_NAME, getGymHkkPrimaryKey(), getGymHkkPrimaryData(entity));
+        	db.delete(GymHkkEntity.TABLE_NAME, getGymHkkWherePrimaryKey(), getGymHkkPrimaryData(entity));
         } finally {
-            db.close();
         }
         
 		Log.v("GymHkkDao", "doDelete end");
     }
     
     /**
-     * ‹Æ–±•ñƒe[ƒuƒ‹ˆê——‚ğæ“¾‚·‚é
+     * å…¥åŠ›æ—¥ä»˜ã§æ¥­å‹™å ±å‘Šã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
      * 
-     * @return ŒŸõŒ‹‰ÊƒŠƒXƒg
+     * @param å…¥åŠ›æ—¥ä»˜
+     * @return ãƒ­ãƒ¼ãƒ‰çµæœ
+     */
+    public GymHkkEntity load(String inputDate) {
+
+		Log.v("GymHkkDao", "load start");
+
+		GymHkkEntity entity = new GymHkkEntity();
+        entity.setInputDate(inputDate);
+
+        try {
+            Cursor cursor = db.query(KintaiEntity.TABLE_NAME, getGymHkkCols(), getGymHkkWherePrimaryKey(), getGymHkkPrimaryData(entity), null, null, null, null);
+            boolean result = cursor.moveToFirst();
+            if(result){
+            	entity = getGymHkkEntity(cursor);
+            } else {
+            	entity = null;
+            }
+        } finally {
+        }
+
+		Log.v("GymHkkDao", "load end");
+
+        return entity;
+    }
+
+    /**
+     * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ä¸€è¦§ã‚’å–å¾—ã™ã‚‹
+     * 
+     * @return æ¤œç´¢çµæœãƒªã‚¹ãƒˆ
      */
     public List<GymHkkEntity> getGymHkkEntityList() {
     	
 		Log.v("GymHkkDao", "getGymHkkEntityList start");
 
-        SQLiteDatabase db = helper.getReadableDatabase();
-        
         List<GymHkkEntity> gymHkkList;
         
         try {
-        	// ORDER BY ‚Ìw’èi‹æ•ªA“ü—Í“ú•tj
+        	// ORDER BY ã®æŒ‡å®šï¼ˆåŒºåˆ†ã€å…¥åŠ›æ—¥ä»˜ï¼‰
         	String sort = GymHkkEntity.INPUT_DATE;
         	
-        	// ŒŸõŒ‹‰Ê‚ğæ“¾‚·‚é
+        	// æ¤œç´¢çµæœã‚’å–å¾—ã™ã‚‹
             Cursor cursor = db.query(GymHkkEntity.TABLE_NAME, null, null, null, null, null, sort);
             
             gymHkkList = new ArrayList<GymHkkEntity>();
@@ -118,7 +161,6 @@ public class GymHkkDao {
                 cursor.moveToNext();
             }
         } finally {
-            db.close();
         }
 
 		Log.v("GymHkkDao", "getGymHkkEntityList end");
@@ -127,10 +169,10 @@ public class GymHkkDao {
     }
 
     /**
-     * ƒJ[ƒ\ƒ‹‚©‚ç‹Æ–±•ñƒGƒ“ƒeƒBƒeƒB‚Ö‚Ì•ÏŠ·
+     * ã‚«ãƒ¼ã‚½ãƒ«ã‹ã‚‰æ¥­å‹™å ±å‘Šã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã¸ã®å¤‰æ›
      * 
-     * @param cursor ƒJ[ƒ\ƒ‹
-     * @return •ÏŠ·Œ‹‰Ê
+     * @param cursor ã‚«ãƒ¼ã‚½ãƒ«
+     * @return å¤‰æ›çµæœ
      */
     private GymHkkEntity getGymHkkEntity(Cursor cursor){
     	
@@ -147,15 +189,36 @@ public class GymHkkDao {
     }
     
     /*
-     * ‹Æ–±•ñƒe[ƒuƒ‹‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[•¶š—ñ‚ğ•Ô‚·
-     * 
-     * return ƒvƒ‰ƒCƒ}ƒŠƒL[•¶š—ñ
+     * æ¥­å‹™å ±å‘Šã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã®å–å¾—ã‚«ãƒ©ãƒ ã‚’è¿”å´ã™ã‚‹
+     *
+     * return å–å¾—ã™ã‚‹ã‚«ãƒ©ãƒ ã®é…åˆ—
      */
-    private String getGymHkkPrimaryKey(){
+    private String[] getGymHkkCols(){
+
+		Log.v("GymHkkDao", "getGymHkkCols start");
+
+		// ï¿½vï¿½ï¿½ï¿½Cï¿½}ï¿½ï¿½ï¿½Lï¿½[ï¿½ï¿½ï¿½ï¿½
+    	String[] cols = new String[4];
+    	cols[0] = GymHkkEntity.INPUT_DATE;
+    	cols[1] = GymHkkEntity.SOUKATSU;
+    	cols[2] = GymHkkEntity.POINT;
+    	cols[3] = GymHkkEntity.BIKOU;
+
+		Log.v("GymHkkDao", "getGymHkkCols end");
+
+		return cols;
+    }
+
+    /*
+     * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã®æ¤œç´¢æ¡ä»¶æ–‡å­—åˆ—ã‚’è¿”ã™
+     * 
+     * return ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼æ–‡å­—åˆ—
+     */
+    private String getGymHkkWherePrimaryKey(){
     	
 		Log.v("GymHkkDao", "getGymHkkPrimaryKey start");
 		
-		// ƒvƒ‰ƒCƒ}ƒŠƒL[¶¬
+		// ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ç”Ÿæˆ
 		StringBuffer strBuf = new StringBuffer();
 		strBuf.append(GymHkkEntity.INPUT_DATE + "=?");
 		
@@ -165,15 +228,15 @@ public class GymHkkDao {
     }
     
     /*
-     * ‹Æ–±•ñƒe[ƒuƒ‹‚Ìƒvƒ‰ƒCƒ}ƒŠƒL[ƒf[ƒ^‚ğ•Ô‚·
+     * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã®ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã™
      * 
-     * return ƒvƒ‰ƒCƒ}ƒŠƒL[ƒf[ƒ^
+     * return ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ãƒ‡ãƒ¼ã‚¿
      */
     private String[] getGymHkkPrimaryData(GymHkkEntity entity){
     	
 		Log.v("GymHkkDao", "getGymHkkPrimaryData start");
 		
-    	// ƒvƒ‰ƒCƒ}ƒŠƒL[ƒf[ƒ^
+    	// ãƒ—ãƒ©ã‚¤ãƒãƒªã‚­ãƒ¼ãƒ‡ãƒ¼ã‚¿
     	String[] data = new String[1];
     	data[0] = entity.getInputDate();
     	

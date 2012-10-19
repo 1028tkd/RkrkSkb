@@ -3,7 +3,7 @@ package jp.co.digitalvision.rkrkskb.db;
 import java.io.Serializable;
 
 /*
- * ‹Æ–±•ñƒe[ƒuƒ‹ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX
+ * æ¥­å‹™å ±å‘Šãƒ†ãƒ¼ãƒ–ãƒ«ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  */
 public class GymHkkEntity implements Serializable {
 	
@@ -12,16 +12,16 @@ public class GymHkkEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 7073396938120184519L;
 
-	// ƒe[ƒuƒ‹–¼
+	// ãƒ†ãƒ¼ãƒ–ãƒ«å
 	public static final String TABLE_NAME = "GYMHKK";
 	
-	// ƒJƒ‰ƒ€–¼
+	// ã‚«ãƒ©ãƒ å
 	public static final String INPUT_DATE = "INPUT_DATE";
 	public static final String SOUKATSU = "SOUKATSU";
 	public static final String POINT = "POINT";
 	public static final String BIKOU = "BIKOU";
 
-	// ƒvƒƒpƒeƒB
+	// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	private String inputDate = null;
 	private String soukatsu = null;
 	private String point = null;

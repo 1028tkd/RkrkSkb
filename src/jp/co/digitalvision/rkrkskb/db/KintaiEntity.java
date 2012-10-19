@@ -3,7 +3,7 @@ package jp.co.digitalvision.rkrkskb.db;
 import java.io.Serializable;
 
 /*
- * ‹Î‘Óƒe[ƒuƒ‹ƒGƒ“ƒeƒBƒeƒBƒNƒ‰ƒX
+ * å‹¤æ€ ãƒ†ãƒ¼ãƒ–ãƒ«ã‚¨ãƒ³ãƒ†ã‚£ãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  * 
  */
 public class KintaiEntity implements Serializable {
@@ -13,18 +13,18 @@ public class KintaiEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = 7073396938120184519L;
 
-	// ƒe[ƒuƒ‹–¼
+	// ãƒ†ãƒ¼ãƒ–ãƒ«å
 	public static final String TABLE_NAME = "KINTAI";
 	
-	// ƒJƒ‰ƒ€–¼
-	public static final String KBN = "KBN";					// ‹æ•ªi‚PFo‹ÎA‚QF‘Ş‹ÎA‚RF‹x‰Éj
-	public static final String INPUT_DATE = "INPUT_DATE";		// “ü—Í“ú•tiYYYYMMDDj
-	public static final String HOUR = "HOUR";					// “ü—ÍŠÔ
-	public static final String MIN = "MIN";					// “ü—Í•ª
-	public static final String TEKIYOU = "TEKIYOU";			// “E—v
-	public static final String BIKOU = "BIKOU";				// ”õl
+	// ã‚«ãƒ©ãƒ å
+	public static final String KBN = "KBN";					// åŒºåˆ†ï¼ˆï¼‘ï¼šå‡ºå‹¤ã€ï¼’ï¼šé€€å‹¤ã€ï¼“ï¼šä¼‘æš‡ï¼‰
+	public static final String INPUT_DATE = "INPUT_DATE";		// å…¥åŠ›æ—¥ä»˜ï¼ˆYYYYMMDDï¼‰
+	public static final String HOUR = "HOUR";					// å…¥åŠ›æ™‚é–“
+	public static final String MIN = "MIN";					// å…¥åŠ›åˆ†
+	public static final String TEKIYOU = "TEKIYOU";			// æ‘˜è¦
+	public static final String BIKOU = "BIKOU";				// å‚™è€ƒ
 
-	// ƒvƒƒpƒeƒB
+	// ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	private String kbn = null;
 	private String inputDate = null;
 	private String hour = null;

@@ -11,6 +11,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+ <!-- 
         <activity
             android:name=".RkrkSkbActivity"
             android:label="@string/title_activity_rkrk_skb" >
@@ -19,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver
+ -->
+         <receiver
             android:name=".RkrkSkbWidgetProvider"
             android:label="@string/widget_app_name">
             <intent-filter>

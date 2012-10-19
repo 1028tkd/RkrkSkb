@@ -7,17 +7,17 @@ import android.util.Log;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-	// �f�[�^�x�[�X���̒萔
+	// データベース名の定数
     private static final String DB_NAME = "RKRK_SKB";
 
-	//�R���X�g���N�^
+	//コンストラクタ
     public DatabaseOpenHelper(Context context) {
         super(context, DB_NAME, null, 1);
     }
 
     /*
-     * ����N�����e�[�u����������
-     *
+     * 初回起動時テーブル生成処理
+     * 
      * @param db SQLiteDatabase
      */
     @Override
@@ -28,7 +28,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     	db.beginTransaction();
 
     	try {
-    		// �ΑӃe�[�u���̐���
+    		// 勤怠テーブルの生成
     		StringBuilder createSql = new StringBuilder();
             createSql.append("create table " + KintaiEntity.TABLE_NAME + " (");
             createSql.append(KintaiEntity.KBN + " text,");
@@ -45,7 +45,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
             db.execSQL(createSql.toString());
 
-    		// �Ɩ��񍐃e�[�u���̐���
+            // 業務報告テーブルの生成
     		createSql = new StringBuilder();
             createSql.append("create table " + GymHkkEntity.TABLE_NAME + " (");
             createSql.append(GymHkkEntity.INPUT_DATE + " text,");
@@ -58,9 +58,12 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
             Log.v("DatabaseOpenHelper", createSql.toString());
 
             db.execSQL(createSql.toString());
+            
+            // コミット実行
+            db.setTransactionSuccessful();
 
     	} catch(Exception e) {
-    		// �G���[���O�o��
+    		// エラーログ出力
     		Log.e("DatabaseOpenHelper", e.toString());
     	} finally {
         	Log.v("DatabaseOpenHelper", "onCreate end");
@@ -75,7 +78,6 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
      */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
-
+		// TODO 自動生成されたメソッド・スタブ
 	}
 }
