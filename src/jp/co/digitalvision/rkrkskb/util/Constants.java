@@ -3,12 +3,12 @@ package jp.co.digitalvision.rkrkskb.util;
 import java.io.Serializable;
 
 /**
- * ’è”ƒNƒ‰ƒX
+ * å®šæ•°ã‚¯ãƒ©ã‚¹
  * 
  * <PRE>
- * | Ver |   “ú•t   |       XVÒ       |               •ÏX“à—eEƒRƒƒ“ƒg
+ * | Ver |   æ—¥ä»˜   |       æ›´æ–°è€…       |               å¤‰æ›´å†…å®¹ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆ
  * |-----|----------|--------------------|-------------------------------------------
- * | 1.0 |2012/10/01| T.Takada           | V‹Kì¬
+ * | 1.0 |2012/10/01| T.Takada           | æ–°è¦ä½œæˆ
  * </PRE>
  * 
  * @version
@@ -21,11 +21,11 @@ public class Constants implements Serializable {
 	 */
 	private static final long serialVersionUID = -8534281924307466275L;
 	
-	/** ‹æ•ªF "1"io‹Îj */
+	/** åŒºåˆ†ï¼š "1"ï¼ˆå‡ºå‹¤ï¼‰ */
 	public static final String KBN_SYUKKIN = "1";
-	/** ‹æ•ªF "2"i‘Ş‹Îj */
+	/** åŒºåˆ†ï¼š "2"ï¼ˆé€€å‹¤ï¼‰ */
 	public static final String KBN_TAIKIN = "2";
-	/** ‹æ•ªF "3"i‹x‰Éj */
+	/** åŒºåˆ†ï¼š "3"ï¼ˆä¼‘æš‡ï¼‰ */
 	public static final String KBN_KYUUKA = "3";
 
 }

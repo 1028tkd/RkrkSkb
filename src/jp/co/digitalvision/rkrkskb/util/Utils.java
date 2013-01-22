@@ -1,16 +1,16 @@
 package jp.co.digitalvision.rkrkskb.util;
 
 /**
- * ƒ†[ƒeƒBƒŠƒeƒBƒNƒ‰ƒX
+ * ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ã‚¯ãƒ©ã‚¹
  * 
  */
 public class Utils {
 
 	/*
-	 * •¶š—ñ‚ªnull‚Ìê‡A‹ó•¶š‚Æ‚µ‚Ä•Ô‹p‚·‚é
+	 * æ–‡å­—åˆ—ãŒnullã®å ´åˆã€ç©ºæ–‡å­—ã¨ã—ã¦è¿”å´ã™ã‚‹
 	 * 
-	 * @param value •¶š—ñ
-	 * @return •ÏŠ·•¶š—ñ
+	 * @param value æ–‡å­—åˆ—
+	 * @return å¤‰æ›æ–‡å­—åˆ—
 	 */
 	public static String nullToEmpty(String value){
 		if(value == null) return "";
@@ -18,10 +18,10 @@ public class Utils {
 	}
 	
 	/*
-	 * •¶š—ñ‚ªƒuƒ‰ƒ“ƒN‚Ü‚½‚Ínull‚©‚Ç‚¤‚©”»’èˆ—‚ğs‚¤
+	 * æ–‡å­—åˆ—ãŒãƒ–ãƒ©ãƒ³ã‚¯ã¾ãŸã¯nullã‹ã©ã†ã‹åˆ¤å®šå‡¦ç†ã‚’è¡Œã†
 	 * 
-	 * @param value ”»’è•¶š—ñ
-	 * @return trueFƒuƒ‰ƒ“ƒN‚Ü‚½‚ÍnullAfalseF‚»‚êˆÈŠO
+	 * @param value åˆ¤å®šæ–‡å­—åˆ—
+	 * @return trueï¼šãƒ–ãƒ©ãƒ³ã‚¯ã¾ãŸã¯nullã€falseï¼šãã‚Œä»¥å¤–
 	 */
 	public static boolean isBlankOrNull(String value){
 		

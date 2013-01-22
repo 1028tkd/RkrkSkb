@@ -4,12 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
- * ŠÔŠÖŒW‹¤’ÊƒNƒ‰ƒX
+ * æ™‚é–“é–¢ä¿‚å…±é€šã‚¯ãƒ©ã‚¹
  * 
  * <PRE>
- * | Ver |   “ú•t   |       XVÒ       |               •ÏX“à—eEƒRƒƒ“ƒg
+ * | Ver |   æ—¥ä»˜   |       æ›´æ–°è€…       |               å¤‰æ›´å†…å®¹ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆ
  * |-----|----------|--------------------|-------------------------------------------
- * | 1.0 |2012/10/01| T.Takada           | V‹Kì¬
+ * | 1.0 |2012/10/01| T.Takada           | æ–°è¦ä½œæˆ
  * </PRE>
  * 
  * @version
@@ -17,23 +17,23 @@ import java.util.Calendar;
  */
 public class DateUtil {
 	
-	/** ƒ^ƒCƒ€ƒXƒ^ƒ“ƒvƒtƒH[ƒ}ƒbƒg */
+	/** ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ */
 	private final static SimpleDateFormat yyyyMMddHHmm = new SimpleDateFormat("yyyyMMddHHmm"); 
 	
 	/**
-	 * Œ»İ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğ"yyyyMMddHHmm"Œ`®‚Ì•¶š—ñ‚Å•Ô‚·
+	 * ç¾åœ¨ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’"yyyyMMddHHmm"å½¢å¼ã®æ–‡å­—åˆ—ã§è¿”ã™
 	 * 
-	 * @return •¶š—ñ
+	 * @return æ–‡å­—åˆ—
 	 */
 	public static String getYyyyMMddHHmm() {
 		return yyyyMMddHHmm.format(Calendar.getInstance().getTime());
 	}
 	
 	/**
-	 * Œ»İ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğƒtƒH[ƒ}ƒbƒgŒ`®‚Ì•¶š—ñ‚Å•Ô‚·
+	 * ç¾åœ¨ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå½¢å¼ã®æ–‡å­—åˆ—ã§è¿”ã™
 	 * 
-	 * @param format ƒtƒH[ƒ}ƒbƒgŒ`®
-	 * @return •¶š—ñ
+	 * @param format ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆå½¢å¼
+	 * @return æ–‡å­—åˆ—
 	 */
 	public static String getFormatDate(String format) {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
@@ -41,9 +41,9 @@ public class DateUtil {
 	}
 	
 	/**
-	 * Œ»İ“ú•tæ“¾
+	 * ç¾åœ¨æ—¥ä»˜å–å¾—
 	 * 
-	 * @return “ú•t(A•ªA•bAƒ~ƒŠ•b‚Í‚O)
+	 * @return æ—¥ä»˜(æ™‚ã€åˆ†ã€ç§’ã€ãƒŸãƒªç§’ã¯ï¼)
 	 */
 	public static java.sql.Date getCurrDate() {
 		java.sql.Date currDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());

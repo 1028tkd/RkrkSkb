@@ -3,7 +3,6 @@ package jp.co.digitalvision.rkrkskb.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.co.digitalvision.rkrkskb.util.Utils;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -60,22 +59,22 @@ public class GymHkkDao {
 			GymHkkEntity ldEnt = load(inputDate);
 
 			if(ldEnt != null){			
-				Log.v("KintaiDao", "doSave UPDATE start");
+				Log.v("GymHkkDao", "doSave UPDATE start");
 				
 				// プライマリキーが取得できた場合は更新処理を行う
 				db.update(GymHkkEntity.TABLE_NAME, values, getGymHkkWherePrimaryKey(), getGymHkkPrimaryData(entity));
 				
-				Log.v("KintaiDao", "doSave UPDATE end");
+				Log.v("GymHkkDao", "doSave UPDATE end");
 
 			} else {
-				Log.v("KintaiDao", "doSave INSERT start");
+				Log.v("GymHkkDao", "doSave INSERT start");
 				
 				// それ以外は新規作成処理を行う
 				db.insert( GymHkkEntity.TABLE_NAME, null, values);
 				// コミット
 				db.setTransactionSuccessful();
 				
-				Log.v("KintaiDao", "doSave INSERT end");
+				Log.v("GymHkkDao", "doSave INSERT end");
 			}
 			
 		} catch (Exception e){
@@ -197,7 +196,7 @@ public class GymHkkDao {
 
 		Log.v("GymHkkDao", "getGymHkkCols start");
 
-		// �v���C�}���L�[����
+		// 取得カラム設定
     	String[] cols = new String[4];
     	cols[0] = GymHkkEntity.INPUT_DATE;
     	cols[1] = GymHkkEntity.SOUKATSU;
