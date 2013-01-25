@@ -8,5 +8,8 @@
     <string name="syukkin_btn_name">出勤</string>
     <string name="taikin_btn_name">退勤</string>
     <string name="kyuuka_btn_name">休暇</string>
-        
+    <string name="ago_month">前月</string>
+    <string name="next_month">次月</string>
+    <string name="dispdate">yyyy/mm</string>
+
 </resources>
