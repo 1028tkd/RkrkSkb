@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -18,6 +19,7 @@ public class RkrkSkbActivity extends Activity {
 	ListView listView;
 	Button addButton;
 	static List<String> dataList = new ArrayList<String>();
+	static ArrayAdapter<String> adapter;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,14 @@ public class RkrkSkbActivity extends Activity {
     	super.onResume();
     	Context context = this;
     	
-        // DBからデータ読み込み
-        dataList = getKintaiList(context);
-    	
+    	// DBからデータ読み込み
+    	dataList = getKintaiList(context);
+        adapter = new ArrayAdapter<String>(
+	        	      this,
+	        	      android.R.layout.simple_list_item_1, 
+	        	      dataList);
+        listView.setAdapter(adapter);
+        
     	Log.v("RkrkSkbActivity", "onResume end");
     }
     
